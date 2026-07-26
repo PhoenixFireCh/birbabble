@@ -1,0 +1,35 @@
+.Form {
+    width: 50%;
+}
+
+.Form .upperSection {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Form .mainInputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.Form .tagForm {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.Form .tagsContainer {
+    width: 100%;
+    height: 150px;
+    overflow-y: scroll;
+}
+
+.Form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

@@ -1,0 +1,19 @@
+.Home {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.Home .popularPosts {
+    background-color: #4E9151;
+    border-radius: 30px;
+    width: 30%;
+}
+
+.Home .content {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+}
