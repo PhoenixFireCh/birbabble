@@ -2,18 +2,91 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: start;
     width: 100%;
     height: 100%;
+}
+
+.Home .sideBarContainer {
+    width: 18%;
+    height: fit-content;
+    padding: 20px 0px 20px 20px;
+}
+
+.Home .popularBar {
+    height: 80%;
+    position: fixed;
+    width: inherit;
 }
 
 .Home .popularPosts {
     background-color: #4E9151;
     border-radius: 30px;
-    width: 30%;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 90%;
+    padding: 20px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s ease;
+}
+
+.Home .popularPosts:hover {
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
 .Home .content {
-    width: 70%;
+    margin-top: 40px;
+    width: 55%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+}
+
+.Home .content form {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.Home .list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+.Home .headerTags {
+    color: #4E9151;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.Home .infoBar {
+    height: 100%;
+    position: fixed;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.footer {
+    width: 100%;
+    height: 40%;
+    border-radius: 20px 0px 0px 0px;
+    background-color: #4E9151;
+}
+
+/* RadixUI */
+
+.selectTrigger {
+    width: 250px;
+}
+
+.selectContent {
+    width: 200px;
 }

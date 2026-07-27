@@ -1,19 +1,18 @@
-
+import './SmallPost.css'
 import './BigPost.css'
 
-const BigPost = ({title, tag, likes, date, onClick, onLike}) => {
+
+const Post = ({title, tag, likes, date, onClick, onLike, k, type}) => {
 
     return(
-        <div className="BigPost">
+        <div className={type + " Post"}>
             <div className="upperSection">
                 <h3>{title}</h3>
-                {/* Section to remove it if tag not there */}
-                <div className="tag"></div>
+                {tag && <h4 className="tag">{tag}</h4>}
             </div>
             <div className="lowerSection">
                 <div className="likeButtonContainer">
-                    <button className="likeButton">
-                        {/* svg */}
+                    <button className="likeButton" value={k} onClick={onLike}>
                     </button>
                     <h4>{likes}</h4>
                 </div>
@@ -23,4 +22,4 @@ const BigPost = ({title, tag, likes, date, onClick, onLike}) => {
     )
 }
 
-export default BigPost
+export default Post

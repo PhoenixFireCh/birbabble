@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { Navigate } from "react-router"
+import { Navigate, useNavigate } from "react-router"
 import { supabase } from '../client'
 import './Form.css'
 
 const Form = ({o}) => {
+    const navigate = useNavigate();
     const [birds, setBirds] = useState([]);
     const [search, setSearch] = useState("");
     const [response, setResponse] = useState({
@@ -43,7 +44,7 @@ const Form = ({o}) => {
                 .insert(response)
             if (error) console.error(error);
             // Discard the draft so the submitted data isn't restored on re-entry.
-            //navigate("/home")
+            navigate("/")
         }
     }
 
