@@ -5,7 +5,7 @@ import { supabase } from '../client.js';
 import { TextField } from '@radix-ui/themes';
 import * as Select from "@radix-ui/react-select";
 import { MagnifyingGlassIcon, TriangleDownIcon } from "@radix-ui/react-icons";
-
+import { Link } from "react-router";
 
 
 function Home() {
@@ -70,7 +70,7 @@ function Home() {
             const dayB = new Date(db.getFullYear(), db.getMonth(), db.getDate());
 
             if (dayA.getTime() !== dayB.getTime()) {
-                return dayA - dayB; 
+                return dayB - dayA; 
             }
             return b.likes - a.likes; 
         }))
@@ -142,7 +142,13 @@ function Home() {
             </div>
             <div className='sideBarContainer'>
                 <div className='infoBar'>
-                    <div className='additionalContent'></div>
+                    <h2 className='headerTags'>Need help identifying birds?</h2>
+                    <div className='additionalContent'>
+                        <h3>Visit the visual birdtionary for taxinomic and descriptive search!</h3>
+                        <Link className='pageButton'>
+                            Visit Now
+                        </Link>
+                    </div>
                     <div className='footer'>
 
                     </div>

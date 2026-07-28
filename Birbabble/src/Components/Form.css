@@ -1,35 +1,158 @@
 .Form {
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 30px;
+    padding: 20px;
+    margin-top: 20px;
 }
 
 .Form .upperSection {
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: 50%;
+    width: 100%;
+}
+
+.Form .lowerSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+    width: 100%;
 }
 
 .Form .mainInputs {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 10px;
+    width: 60%;
+    height: 100%;
+}
+
+.Form .imageInput {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    background-color: #D3D1D1;
+}
+
+.Form .shifted {
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.Form .clearImage {
+    border-radius: 100px;
+    font-size: 30px;
+    background-color: #d3d1d171;
+    border: none;
+    color: #323232;
+    position: absolute;
+    margin: 10px 10px 0px 0px;
+    transition: 0.3s ease;
+}
+
+.Form .clearImage:hover {
+    color: #ffffff;
+}
+
+
+.Form .previewImg {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    object-fit: cover;
 }
 
 .Form .tagForm {
+    margin-bottom: 0px;
+    margin-top: auto;
     display: flex;
     flex-direction: row;
     width: 100%;
+    justify-content: space-between;
+}
+
+.Form .tagForm .textRoot {
+    width: unset;
 }
 
 .Form .tagsContainer {
-    width: 100%;
-    height: 150px;
+    margin-top: 10px;
+    width: 95%;
+    height: 200px;
     overflow-y: scroll;
+    background-color: #D3D1D1;
+    border-radius: 30px;
+    padding: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #4E9151 rgba(245, 245, 220, 0);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
 }
 
-.Form form {
+.Form .tagsPlaceholder {
+    align-self: center;
+}
+
+.Form .selectableTags {
+    border: none;
+}
+
+/* Radix UI */
+.Form .titleText {
+    padding: 10px;
+}
+
+.Form .titleText input {
+    font-size: 35px;
+    font-weight: 500;
+}
+
+.Form .descriptionArea {
+    width: 100%;
+    height: 400px;
+    background-color: #D3D1D1;
+    border-radius: 30px;
+    margin-top: 10px;
+    --text-area-border-width: none;
+    padding: 10px;
+}
+
+.Form .descriptionArea textarea {
+    padding: 10px;
+}
+
+.Form .submit {
+    font-size: 24px;
+}
+
+/* Dropzone */
+.dropzone {
+    width: 90%;
+    height: 90%;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    border-color: #323232;
+    border-style: dashed;
+    border-width: 3px;
+    transition: 0.3s ease;
+}
+
+.dropzone:hover {
+    border-color: #FFFFFF;
 }

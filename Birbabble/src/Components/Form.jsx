@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
 import { Navigate, useNavigate } from "react-router"
 import { supabase } from '../client'
+import { TextField, TextArea } from '@radix-ui/themes';
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { useDropzone } from "react-dropzone";
 import './Form.css'
 
-const Form = ({o}) => {
+const Form = ({o, edit}) => {
     const navigate = useNavigate();
     const [birds, setBirds] = useState([]);
     const [search, setSearch] = useState("");
@@ -13,7 +16,22 @@ const Form = ({o}) => {
         tag: o == null ? '' : o.tag,
         img: o == null ? null : o.img,
     })
-
+    const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
+        maxFiles: 1,
+        maxSize: 1 * 1024 * 1024, // 1MB
+        accept: {
+        "image/png": [],
+        "image/jpeg": [],
+        "image/webp": []
+        },
+        onDrop: (incomingFiles) => {
+            setResponse((prev) => ({
+                ...prev,
+                img: incomingFiles[0]
+            }))
+        }
+    });
+    const previewImgActive = response.img != null;
 
 
     useEffect(() => {
@@ -51,18 +69,10 @@ const Form = ({o}) => {
     const updateResponse = (e) => {
         e.preventDefault();
         const {name, value} = e.target;
-
-        if (name === 'img') {
-            setResponse((prev) => ({
-                ...prev,
-                img: e.target.files[0]
-            }))
-        } else {
-            setResponse((prev) => ({
-                ...prev,
-                [name]: value
-            }))
-        }
+        setResponse((prev) => ({
+            ...prev,
+            [name]: value
+        }))
     }
 
     const updateSearch = (e) => {
@@ -77,35 +87,66 @@ const Form = ({o}) => {
         }))
     }
 
+    const clearImage = (e) => {
+        e.preventDefault();
+        setResponse((prev) => ({
+            ...prev,
+            img: null
+        }))
+    }
+
     return (
-        <div className="Form">
-            <form onSubmit={submitToDB}>
-                <div className="upperSection">
-                    <div className="mainInputs">
-                        <input name="title" className="text" type="text" placeholder="Title" onChange={updateResponse}></input>
-                        <div className="tagForm">
-                            <input name="search" className="text" type="text" placeholder="Search Tags" onChange={updateSearch}></input>
-                            <h3>{response.tag}</h3>
-                        </div>
-                        <div className="tagsContainer">
-                            {birds.map((o) => {
-                                return <button key={o.id} value={o.common_name} onClick={onTagClick}>
-                                    {o.common_name}
-                                </button>
-                            })}
-                        </div>
+        <form className="Form" onSubmit={submitToDB}>
+            <div className="upperSection">
+                <div className="mainInputs">
+                    <TextField.Root name='title' className='textRoot titleText' variant="soft" placeholder="Title" onChange={updateResponse}></TextField.Root>
+                    <div className="tagForm">
+                        <TextField.Root name='search' className='textRoot' variant="soft" placeholder="Search birds" onChange={updateSearch}>
+                            <TextField.Slot className='textField'>
+                                <MagnifyingGlassIcon height="30" width="30" />
+                            </TextField.Slot>
+                        </TextField.Root>
+                        <h4 className="tag">{response.tag}</h4>
                     </div>
-                    <div className="imageInput">
-                        <input name="img" type="file" className="file" accept=".png,.jpg,.jpeg" onChange={updateResponse}></input>
+                    <div className="tagsContainer">
+                        {birds.length == 0 ? 
+                            (<h3 className="tagsPlaceholder">No birds? Search for tags!</h3>) 
+                            : 
+                            (<>
+                                {birds.map((o) => {
+                                    return <button key={o.id} value={o.common_name} onClick={onTagClick} className="tag selectableTags">
+                                        {o.common_name}
+                                    </button>
+                                })}
+                            </>)
+                        }
                     </div>
                 </div>
-                <textarea name="description" onChange={updateResponse}>
-                    
-                </textarea>
-                <input type="submit" className="submit" value="Create Post"></input>
-            </form>
-        </div>
+                <div className={(response.img == null ? '' : 'shifted') + ' imageInput'}>
+                    { response.img == null ? (<>
+                            <div {...getRootProps({className: "dropzone"})}>
+                                <input {...getInputProps()} />
+                                <p>Drag and drop an image! (1MB Max)</p>
+                            </div>
+                            </>)
+                        :
+                        (<>
+                            <button className="clearImage" onClick={clearImage}>X</button>
+                            <img className="previewImg" src={previewImgActive ? URL.createObjectURL(response.img) : ""}></img>
+                        </>)
+                    }
+                </div>
+            </div>
+            <div className="lowerSection">
+                <TextArea name="description" className="description descriptionArea" placeholder="Description" onChange={updateResponse}/>
+                <input type="submit" className="submit pageButton" value="Create Post"></input>
+            </div>
+        </form>
     )
 }
 
 export default Form
+
+// {/* <label>Drop your images here!</label>
+                        //    */}
+                        // </>)

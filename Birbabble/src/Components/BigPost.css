@@ -14,8 +14,6 @@
     align-items: baseline;
 }
 
-
-
 .BigPost .lowerSection {
     display: flex;
     flex-direction: row;
@@ -28,4 +26,8 @@
     align-items: center;
 }
 
+.BigPost:hover {
+  box-shadow: none;
+  scale: 1.05;
+}
 

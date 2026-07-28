@@ -43,15 +43,19 @@ a {
   text-decoration: none;
 }
 
-.text {
-  width: 100%;
-}
-
 .tag {
-  padding: 5px 10px 5px 10px;
-  border-radius: 100px;
-  background-color: #4E9151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   color: #FFFFFF;
+  height: 25px;
+  width: fit-content;
+  min-width: 100px;
+  text-wrap-mode: nowrap;
+  padding: 5px 10px 5px 10px;
+  background-color: #4E9151;
+  border-radius: 50px;
 }
 
 .likeButton {
@@ -62,19 +66,41 @@ a {
   background-color: unset;
   width: 25px;
   height: 25px;
+  transition: 0.3s ease;
+}
+
+.likeButton:hover {
+  filter: brightness(0.8);
+  scale: 1.1;
+}
+
+.pageButton {
+  background-color: #4E9151;
+  color: #FFFFFF;
+  font-size: 30px;
+  text-decoration: none;
+  border-radius: 50px;
+  border: none;
+  padding: 10px 20px 10px 20px;
+  transition: 0.3s ease;
+}
+
+.pageButton:hover {
+  background-color: #D3D1D1;
+  color: #323232;
+  scale: 1.05;
 }
 
 .Post {
   transition: 0.3s ease-in;
 }
 
-.Post:hover {
-  scale: 1.05;
-}
+/* Font size */
 
-h1, h2, h3, h4, h5, p, label, input, .selectTrigger, .selectItem {
-  font-family: Fira Sans;
+h1, h2, h3, h4, h5, p, label, input, .selectTrigger, .selectItem, textarea {
+  font-family: Fira Sans !important;
   margin: 5px;
+  color: #323232;
 }
 
 h1 {
@@ -85,12 +111,16 @@ h2 {
   font-size: 30px;
 }
 
-h3, .selectTrigger , .selectItem {
+h3, .selectTrigger , .selectItem, label {
   font-size: 24px;
 }
 
-h4 {
+h4, p {
   font-size: 18px;
+}
+
+label {
+  font-weight: 500;
 }
 
 /* Base style for RadixUI */
@@ -169,4 +199,5 @@ h4 {
 .textField {
   margin-left: 10px !important;
 }
+
 

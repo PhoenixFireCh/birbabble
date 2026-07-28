@@ -24,7 +24,14 @@ header {
 
 .App .headerButton {
   font-size: 30px;
+  border-radius: 30px;
   color: white;
+  transition: 0.3s ease;
+}
+
+.App .headerButton:hover, .App .createButton:hover {
+  background-color: #D3D1D1;
+  color: #323232;
 }
 
 .App .createButton {
@@ -35,10 +42,11 @@ header {
 .App .buttons {
   display: flex;
   margin-right: 20px;
-  gap: 5px;
+  gap: 10px;
 }
 
 .App .main {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }

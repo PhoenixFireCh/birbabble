@@ -22,3 +22,8 @@
     flex-direction: row;
     align-items: center;
 }
+
+.SmallPost:hover {
+  box-shadow: none;
+  scale: 1.01;
+}
