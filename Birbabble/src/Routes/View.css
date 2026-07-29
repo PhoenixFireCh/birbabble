@@ -1,0 +1,94 @@
+.View {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 30px;
+    padding: 40px;
+    margin-top: 20px;
+}
+
+.View .upperSection{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.View .lowerSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.View .description {
+    width: 100%;
+    margin-top: 40px;
+}
+
+.View .mainInfo {
+    width: 40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.View img {
+    width: 60%;
+    height: 100%;
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.View .likeButtonContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.View .commentContainer {
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.View .commentForm {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.View .comments {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.View .comment {
+    background-color: #D3D1D1;
+    border-radius: 20px;
+    width: calc(100% - 30px);
+    padding: 20px;
+}
+
+/* Radix UI */
+.View .commentInput {
+    padding: 10px;
+}
+
+.View .commentInput input {
+    font-size: 24px;
+    padding-left: 10px;
+}
+
+.View .submit {
+    font-size: 24px;
+}

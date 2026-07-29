@@ -5,10 +5,11 @@ import { supabase } from '../client.js';
 import { TextField } from '@radix-ui/themes';
 import * as Select from "@radix-ui/react-select";
 import { MagnifyingGlassIcon, TriangleDownIcon } from "@radix-ui/react-icons";
-import { Link } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
 
 
 function Home() {
+    const navigate = useNavigate();
     const [totalContent, setTotalContent] = useState([]);
     const [popular, setPopular] = useState([]);
     const [display, setDisplay] = useState([]);
@@ -78,6 +79,7 @@ function Home() {
 
     const updateLikes = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const id = e.target.value;
         setTotalContent(totalContent.map(item =>
             item.id == id
@@ -86,7 +88,7 @@ function Home() {
         );
         const { data, error } = await supabase
             .from("content")
-            .update({ likes: totalContent.find(item => item.id == id).id + 1})     // fields you want to update
+            .update({ likes: totalContent.find(item => item.id == id).likes + 1})     // fields you want to update
             .eq("id", id);       
         if (error) console.error(error);
     }
@@ -94,6 +96,11 @@ function Home() {
     const onSearch = (e) => {
         e.preventDefault()
         setSearch(e.target.value);
+    }
+
+    const toDetailView = (e) => {
+        const object = totalContent.find(item => item.id == e.currentTarget.dataset.value)
+        navigate(`/view/${object.id}`, {state: {object: object}});
     }
 
     return (
@@ -105,7 +112,7 @@ function Home() {
                     </h2>
                     <div className='popularPosts'>
                         {popular.map((o) => {
-                            return <Post key={o.id} k={o.id} title={o.title} tag={o.tag} likes={o.likes} date={o.created_at} onLike={updateLikes} type="BigPost"/>
+                            return <Post key={o.id} id={o.id} title={o.title} tag={o.tag} likes={o.likes} date={o.created_at} onLike={updateLikes} type="BigPost"/>
                         })}
                     </div>
                 </div>
@@ -125,18 +132,18 @@ function Home() {
 
                         <Select.Content className='selectContent' position="popper" sideOffset={4} >
                             <Select.Item value="newest" className='selectItem'>
-                                <Select.ItemText className='SelectItemText'>Newest</Select.ItemText>
+                                <Select.ItemText className='selectItemText'>Newest</Select.ItemText>
                             </Select.Item>
 
                             <Select.Item value="popular" className='selectItem'>
-                                <Select.ItemText className='SelectItemText'>Most Popular</Select.ItemText>
+                                <Select.ItemText className='selectItemText'>Most Popular</Select.ItemText>
                             </Select.Item>
                         </Select.Content>
                     </Select.Root>
                 </form>
                 <div className='list'>
                     {display.map((o) => {
-                        return <Post key={o.id} k={o.id} title={o.title} tag={o.tag} likes={o.likes} date={o.created_at} onLike={updateLikes} type="SmallPost"/>
+                        return <Post key={o.id} id={o.id} title={o.title} tag={o.tag} likes={o.likes} date={o.created_at} onLike={updateLikes} onClick={toDetailView} type="SmallPost"/>
                     })}
                 </div>
             </div>

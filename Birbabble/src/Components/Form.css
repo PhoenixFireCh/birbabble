@@ -100,11 +100,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 5px;
-    justify-content: center;
 }
 
 .Form .tagsPlaceholder {
     align-self: center;
+    width: 100%;
+    text-align: center;
 }
 
 .Form .selectableTags {
@@ -118,7 +119,7 @@
 
 .Form .titleText input {
     font-size: 35px;
-    font-weight: 500;
+    padding-left: 10px;
 }
 
 .Form .descriptionArea {

@@ -25,7 +25,7 @@ function App() {
               
             </div>
             <div className='buttons'>
-              <Link className='headerButton' >
+              <Link className='headerButton' to='/' >
                 Home
               </Link>
               <Link className='headerButton createButton' to='/create'>

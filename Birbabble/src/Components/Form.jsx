@@ -14,8 +14,8 @@ const Form = ({o, edit}) => {
         title: o == null ? '' : o.title,
         description: o == null ? '' : o.description,
         tag: o == null ? '' : o.tag,
-        img: o == null ? null : o.img,
     })
+    const [uploadedImage, setImg] = useState(null)
     const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
         maxFiles: 1,
         maxSize: 1 * 1024 * 1024, // 1MB
@@ -25,13 +25,10 @@ const Form = ({o, edit}) => {
         "image/webp": []
         },
         onDrop: (incomingFiles) => {
-            setResponse((prev) => ({
-                ...prev,
-                img: incomingFiles[0]
-            }))
+            setImg(incomingFiles[0])
         }
     });
-    const previewImgActive = response.img != null;
+    const previewImgActive = uploadedImage != null;
 
 
     useEffect(() => {
@@ -48,20 +45,27 @@ const Form = ({o, edit}) => {
         return () => clearTimeout(timeout)
     }, [search]) // Due to the sheer amount of data (over 11,000 birds), searching must be handled on the server.
 
-
-
     const submitToDB = async (e) => {
         e.preventDefault()
         if (o) { //Edit
 
         } else { //Post
             e.preventDefault();
-            console.log(response);
-            let { data, error } =  await supabase
+            const { data: dataA , error : errorA } =  await supabase
                 .from('content')
                 .insert(response)
-            if (error) console.error(error);
-            // Discard the draft so the submitted data isn't restored on re-entry.
+                .select()
+                .single();
+            if (errorA) console.error("UPLOAD DATA: " + errorA);
+
+            //FILE MANAGEMENT (Can't find any other way to reduce the number of API calls that utilizes supabase ID)
+            if (uploadedImage != null) {
+                const id = dataA.id; 
+                const { data: dataB , error: errorB } = await supabase.storage
+                    .from('images')
+                    .upload(`${id}`, uploadedImage);
+                if (errorB) console.error("IMAGE UPLOAD: " + errorB);
+            }
             navigate("/")
         }
     }
@@ -89,10 +93,7 @@ const Form = ({o, edit}) => {
 
     const clearImage = (e) => {
         e.preventDefault();
-        setResponse((prev) => ({
-            ...prev,
-            img: null
-        }))
+        setImg(null);
     }
 
     return (
@@ -110,7 +111,7 @@ const Form = ({o, edit}) => {
                     </div>
                     <div className="tagsContainer">
                         {birds.length == 0 ? 
-                            (<h3 className="tagsPlaceholder">No birds? Search for tags!</h3>) 
+                            (<h4 className="tagsPlaceholder">No birds? Search for tags!</h4>) 
                             : 
                             (<>
                                 {birds.map((o) => {
@@ -122,8 +123,8 @@ const Form = ({o, edit}) => {
                         }
                     </div>
                 </div>
-                <div className={(response.img == null ? '' : 'shifted') + ' imageInput'}>
-                    { response.img == null ? (<>
+                <div className={(!previewImgActive ? '' : 'shifted') + ' imageInput'}>
+                    {!previewImgActive ? (<>
                             <div {...getRootProps({className: "dropzone"})}>
                                 <input {...getInputProps()} />
                                 <p>Drag and drop an image! (1MB Max)</p>
@@ -132,7 +133,7 @@ const Form = ({o, edit}) => {
                         :
                         (<>
                             <button className="clearImage" onClick={clearImage}>X</button>
-                            <img className="previewImg" src={previewImgActive ? URL.createObjectURL(response.img) : ""}></img>
+                            <img className="previewImg" src={previewImgActive ? URL.createObjectURL(uploadedImage) : null}></img>
                         </>)
                     }
                 </div>
@@ -146,7 +147,3 @@ const Form = ({o, edit}) => {
 }
 
 export default Form
-
-// {/* <label>Drop your images here!</label>
-                        //    */}
-                        // </>)
