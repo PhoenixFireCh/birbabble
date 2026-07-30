@@ -6,14 +6,15 @@ import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { useDropzone } from "react-dropzone";
 import './Form.css'
 
-const Form = ({o, edit}) => {
+const Form = ({o, img}) => {
     const navigate = useNavigate();
     const [birds, setBirds] = useState([]);
     const [search, setSearch] = useState("");
     const [response, setResponse] = useState({
-        title: o == null ? '' : o.title,
-        description: o == null ? '' : o.description,
-        tag: o == null ? '' : o.tag,
+        title:'',
+        description: '',
+        tag: '',
+        containsImg: false,
     })
     const [uploadedImage, setImg] = useState(null)
     const {acceptedFiles, getRootProps, getInputProps} = useDropzone({
@@ -26,10 +27,19 @@ const Form = ({o, edit}) => {
         },
         onDrop: (incomingFiles) => {
             setImg(incomingFiles[0])
+            setResponse((prev) => ({...prev,
+            containsImg: true
+        }))
         }
     });
     const previewImgActive = uploadedImage != null;
 
+    useEffect(() => {
+        if (o != null) {
+            setResponse(o);
+            setImg(img);
+        }
+    }, [o, img])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -47,10 +57,8 @@ const Form = ({o, edit}) => {
 
     const submitToDB = async (e) => {
         e.preventDefault()
-        if (o) { //Edit
-
-        } else { //Post
-            e.preventDefault();
+        //Post
+        if (o == null) {
             const { data: dataA , error : errorA } =  await supabase
                 .from('content')
                 .insert(response)
@@ -58,7 +66,7 @@ const Form = ({o, edit}) => {
                 .single();
             if (errorA) console.error("UPLOAD DATA: " + errorA);
 
-            //FILE MANAGEMENT (Can't find any other way to reduce the number of API calls that utilizes supabase ID)
+            //FILE MANAGEMENT
             if (uploadedImage != null) {
                 const id = dataA.id; 
                 const { data: dataB , error: errorB } = await supabase.storage
@@ -66,8 +74,27 @@ const Form = ({o, edit}) => {
                     .upload(`${id}`, uploadedImage);
                 if (errorB) console.error("IMAGE UPLOAD: " + errorB);
             }
-            navigate("/")
+        } else {
+            const { data: dataA , error : errorA } =  await supabase
+                .from('content')
+                .update(response)
+                .eq("id", response.id);
+            if (errorA) console.error("UPLOAD DATA: " + errorA);
+            if (uploadedImage != null) {
+                const { data: dataB , error: errorB } = await supabase.storage
+                    .from('images')
+                    .upload(`${response.id}`, uploadedImage, {
+                        upsert: true
+                    });
+                if (errorB) console.error("IMAGE UPLOAD: " + errorB);
+            } else if (img != null) {
+                //Attempts to delete the img if uploaded image is null but there is an image returned.
+                const { data: dataB , error: errorB } = await supabase.storage
+                    .from('images')
+                    .remove([response.id + ""])
+            }
         }
+        navigate("/")
     }
 
     const updateResponse = (e) => {
@@ -94,13 +121,16 @@ const Form = ({o, edit}) => {
     const clearImage = (e) => {
         e.preventDefault();
         setImg(null);
+        setResponse((prev) => ({...prev,
+            containsImg: false
+        }))
     }
 
     return (
         <form className="Form" onSubmit={submitToDB}>
             <div className="upperSection">
                 <div className="mainInputs">
-                    <TextField.Root name='title' className='textRoot titleText' variant="soft" placeholder="Title" onChange={updateResponse}></TextField.Root>
+                    <TextField.Root name='title' className='textRoot titleText' variant="soft" placeholder="Title" onChange={updateResponse} value={response.title}></TextField.Root>
                     <div className="tagForm">
                         <TextField.Root name='search' className='textRoot' variant="soft" placeholder="Search birds" onChange={updateSearch}>
                             <TextField.Slot className='textField'>
@@ -139,8 +169,8 @@ const Form = ({o, edit}) => {
                 </div>
             </div>
             <div className="lowerSection">
-                <TextArea name="description" className="description descriptionArea" placeholder="Description" onChange={updateResponse}/>
-                <input type="submit" className="submit pageButton" value="Create Post"></input>
+                <TextArea name="description" className="description descriptionArea" placeholder="Description" value={response.description} onChange={updateResponse}/>
+                <input type="submit" className="submit pageButton" value={o == null ? "Create Post" : "Edit Post"}></input>
             </div>
         </form>
     )

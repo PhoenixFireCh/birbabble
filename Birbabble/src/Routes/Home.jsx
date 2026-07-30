@@ -74,7 +74,7 @@ function Home() {
                 return dayB - dayA; 
             }
             return b.likes - a.likes; 
-        }))
+        }).slice(0,5))
     }
 
     const updateLikes = async (e) => {
@@ -157,7 +157,12 @@ function Home() {
                         </Link>
                     </div>
                     <div className='footer'>
-
+                        <p>About</p>
+                        <p>User Agreement</p>
+                        <p>Privacy Policy</p>
+                        <p>Harrison Cheung © 2026</p>
+                        <p className='warning'>(Note: These links do not work)</p>
+                        <div className='icon'></div>
                     </div>
                 </div>
             </div>

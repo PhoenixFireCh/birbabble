@@ -5,6 +5,7 @@ import Home from './Routes/Home.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Create from './Routes/Create.jsx'
 import View from './Routes/View.jsx'
+import Edit from './Routes/Edit.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')).render(
         <Route index element={<Home/>}/>
         <Route path='/create' element={<Create/>}/>
         <Route path='/view/:id' element={<View/>}/>
+        <Route path='/edit/:id' element={<Edit/>}/>
       </Route>
     </Routes>
   </BrowserRouter>

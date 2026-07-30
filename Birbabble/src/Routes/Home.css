@@ -89,16 +89,39 @@
     transition: 0.3s ease;
 }
 
-.additionalContent h3 {
+.Home .additionalContent h3 {
     text-align: center;
     color: white;
 }
 
-.footer {
+.Home .footer {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 30%;
     border-radius: 20px 0px 0px 0px;
     background-color: #4E9151;
+    padding: 20px 0px 20px 20px;
+    justify-content: top;
+    align-items: center;
+}
+
+.Home .footer p {
+    color: white;
+}
+
+.Home .footer .warning {
+    font-size: 8px;
+    color: rgb(185, 185, 185);
+}
+
+.Home .icon {
+    background-image: url("./logo.svg");
+    background-size: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 40px;
 }
 
 /* RadixUI */

@@ -9,11 +9,37 @@
     margin-top: 20px;
 }
 
+.View .utilityButtons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.View .edit, .View .erase {
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 25px;
+}
+
+.View .edit {
+    background-image: url("/edit.svg");
+}
+
+.View .erase {
+    background-image: url("/erase.svg");
+}
+
 .View .upperSection{
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     width: 100%;
+    margin-top: 20px;
 }
 
 .View .lowerSection {

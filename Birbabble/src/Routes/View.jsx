@@ -1,13 +1,14 @@
 
 import { supabase } from '../client'
-import { data, useParams } from 'react-router';
+import { Navigate, useNavigate } from "react-router"
+import { useParams } from 'react-router';
 import { TextField} from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
 import './View.css'
 
 const View = () => {
     const { id } = useParams();
-
+    const navigate = useNavigate();
     const [currentPost, setCurrentPost] = useState({comments: []});
     const [postImg, setPostImg] = useState(null);
     const [currentComment, setCurrentComment] = useState("");
@@ -30,7 +31,7 @@ const View = () => {
                     })
             setCurrentPost(dataA);
             
-            if (dataA.filePath != "") {
+            if (dataA.containsImg == true) {
                 const { data: file, error : errorB } = await supabase.storage
                     .from('images')
                     .download(dataA.id + "");
@@ -72,14 +73,39 @@ const View = () => {
         if (error) console.error(error);
     }
 
+    const eraseFromDB = async (e) => {
+        e.preventDefault();
+        const { error : errorA } = await supabase
+        .from("content")
+        .delete() 
+        .eq("id", id);   
+        if (errorA) console.error(errorA);
+        if (postImg != null) {
+            const { error : errorB } = await supabase.storage
+            .from("images")
+            .remove([id + ""]);
+            if (errorB) console.error(errorB);
+        }
+        navigate("/");
+    }
+
+    const changeToEdit = (e) => {
+        e.preventDefault();
+        navigate(`/edit/${id}`);
+    }
+
 
     return (
         <div className='View'>
+            <div className='utilityButtons'>
+                <button className='pageButton edit' onClick={changeToEdit} ></button>
+                <button className='pageButton erase' onClick={eraseFromDB}></button>
+            </div>
             <div className='upperSection'>
                 <div className='mainInfo'>
                     <h2>{currentPost.title}</h2>
                     {currentPost.tag != "" ? 
-                        <h4 className="tag">{currentPost.tags}</h4> 
+                        <h4 className="tag">{currentPost.tag}</h4> 
                         :
                         <></>
                     }
@@ -89,7 +115,12 @@ const View = () => {
                         <h4>{currentPost.likes}</h4>
                     </div>
                 </div>
-                <img src={postImg != null ? URL.createObjectURL(postImg) : null}></img>
+                {postImg != null ? 
+                    <img src={postImg != null ? URL.createObjectURL(postImg) : null}></img>
+                    :
+                    <></>
+                }
+                
             </div>
             <div className='lowerSection'>
                 <p className='description'>{currentPost.description}</p>

@@ -6,8 +6,11 @@
     flex-direction: column;
     display: flex;
     flex-direction: column;
-    background-color: #FFFFFF;
-    box-shadow: 5px 5px 0 0 #D3D1D1 ;
+    background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+    );
     border-radius: 20px;
 }
 
@@ -25,5 +28,6 @@
 
 .SmallPost:hover {
   box-shadow: none;
+  box-shadow: 5px 5px 0 0 #D3D1D1;
   scale: 1.01;
 }
