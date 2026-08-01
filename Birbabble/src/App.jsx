@@ -20,14 +20,10 @@ function App() {
 
   return (
       <div className='App'>
-        {/* make it slightly transparent upon movement */}
         <div className='headerContainer'>
           <header>
-            <div className='logo'></div>
+            <Link className='logo' to='/'></Link>
             <div className='buttons'>
-              <Link className='headerButton nonCreateButton' to='/' >
-                Home
-              </Link>
               <Link className='headerButton createButton' to='/create'>
                 +Post
               </Link>

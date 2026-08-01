@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './Home.css'
 import Post from '../Components/Post.jsx';
 import { supabase } from '../client.js';
-import { TextField } from '@radix-ui/themes';
+import { Skeleton, TextField } from '@radix-ui/themes';
 import * as Select from "@radix-ui/react-select";
 import { MagnifyingGlassIcon, TriangleDownIcon } from "@radix-ui/react-icons";
 import { Link, Navigate, useNavigate } from "react-router";
@@ -10,6 +10,7 @@ import { Link, Navigate, useNavigate } from "react-router";
 
 function Home() {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
     const [totalContent, setTotalContent] = useState([]);
     const [popular, setPopular] = useState([]);
     const [display, setDisplay] = useState([]);
@@ -24,6 +25,7 @@ function Home() {
     //Use Effect
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             let {data, error} = await supabase 
                 .from('content')
                 .select("*");
@@ -39,6 +41,7 @@ function Home() {
                                 });
             })
             setTotalContent(data);
+            setLoading(false);
         }
         fetchData();
     }, [])
@@ -111,9 +114,19 @@ function Home() {
                         Popular sighting of the day
                     </h2>
                     <div className='popularPosts'>
-                        {popular.map((o) => {
-                            return <Post key={o.id} id={o.id} title={o.title} tag={o.tag} likes={o.likes} date={o.created_at} onLike={updateLikes} type="BigPost"/>
-                        })}
+                        {!loading ? 
+                            popular.map((o) => {
+                                return <Post key={o.id} id={o.id} title={o.title} tag={o.tag} likes={o.likes} date={o.created_at} onLike={updateLikes} type="BigPost"/>
+                            })
+                            :
+                            <>
+                                <Skeleton className='bigPostSkele'></Skeleton>
+                                <Skeleton className='bigPostSkele'></Skeleton>
+                                <Skeleton className='bigPostSkele'></Skeleton>
+                                <Skeleton className='bigPostSkele'></Skeleton>
+                                <Skeleton className='bigPostSkele'></Skeleton>
+                            </>
+                        }
                     </div>
                 </div>
             </div>
@@ -142,9 +155,21 @@ function Home() {
                     </Select.Root>
                 </form>
                 <div className='list'>
-                    {display.map((o) => {
-                        return <Post key={o.id} id={o.id} title={o.title} tag={o.tag} likes={o.likes} date={o.created_at} onLike={updateLikes} onClick={toDetailView} type="SmallPost"/>
-                    })}
+                    {!loading ?
+                        display.map((o) => {
+                            return <Post key={o.id} id={o.id} title={o.title} tag={o.tag} likes={o.likes} date={o.created_at} onLike={updateLikes} onClick={toDetailView} type="SmallPost"/>
+                        })
+                    :
+                        <>
+                            <Skeleton className='smallPostSkele'></Skeleton>
+                            <Skeleton className='smallPostSkele'></Skeleton>
+                            <Skeleton className='smallPostSkele'></Skeleton>
+                            <Skeleton className='smallPostSkele'></Skeleton>
+                            <Skeleton className='smallPostSkele'></Skeleton>
+                            <Skeleton className='smallPostSkele'></Skeleton>
+                            <Skeleton className='smallPostSkele'></Skeleton>
+                        </>
+                    }
                 </div>
             </div>
             <div className='sideBarContainer'>

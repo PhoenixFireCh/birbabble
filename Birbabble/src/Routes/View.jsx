@@ -1,12 +1,14 @@
 
 import { supabase } from '../client'
-import { Navigate, useNavigate } from "react-router"
+import { Link, Navigate, useNavigate } from "react-router"
 import { useParams } from 'react-router';
-import { TextField} from '@radix-ui/themes';
+import { Skeleton, TextField} from '@radix-ui/themes';
 import { useEffect, useState } from 'react';
+import { CaretLeftIcon, Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import './View.css'
 
 const View = () => {
+    const [loading, setLoading] = useState(true);
     const { id } = useParams();
     const navigate = useNavigate();
     const [currentPost, setCurrentPost] = useState({comments: []});
@@ -15,6 +17,7 @@ const View = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             let {data: dataA, error : errorA} = await supabase 
                 .from('content')
                 .select('*')
@@ -38,6 +41,7 @@ const View = () => {
                 if (errorB) console.error(errorB);
                 setPostImg(file);
             }
+            setLoading(false);
         }
         fetchData()
     }, [])
@@ -96,47 +100,61 @@ const View = () => {
 
 
     return (
-        <div className='View'>
-            <div className='utilityButtons'>
-                <button className='pageButton edit' onClick={changeToEdit} ></button>
-                <button className='pageButton erase' onClick={eraseFromDB}></button>
-            </div>
-            <div className='upperSection'>
-                <div className='mainInfo'>
-                    <h2>{currentPost.title}</h2>
-                    {currentPost.tag != "" ? 
-                        <h4 className="tag">{currentPost.tag}</h4> 
-                        :
-                        <></>
-                    }
-                    <h4>{"Posted: " + currentPost.created_at}</h4>
-                    <div className="likeButtonContainer">
-                        <button className="likeButton" onClick={onLike}></button>
-                        <h4>{currentPost.likes}</h4>
+        <>
+            <Link className='backButton' to="/">
+                <CaretLeftIcon height="30" width="30"></CaretLeftIcon>
+                Back
+            </Link>
+            {loading ? 
+                <Skeleton className='viewSkeleton'></Skeleton>
+                :
+                <div className='View'>
+                    <div className='utilityButtons'>
+                        <button className='pageButton edit' onClick={changeToEdit} >
+                            <Pencil1Icon height="30" width="30" />
+                        </button>
+                        <button className='pageButton erase' onClick={eraseFromDB}>
+                            <TrashIcon height="30" width="30" />
+                        </button>
                     </div>
-                </div>
-                {postImg != null ? 
-                    <img src={postImg != null ? URL.createObjectURL(postImg) : null}></img>
-                    :
-                    <></>
-                }
-                
-            </div>
-            <div className='lowerSection'>
-                <p className='description'>{currentPost.description}</p>
-                <div className='commentContainer'>
-                    <form className='commentForm' onSubmit={updateCommentDB}>
-                        <TextField.Root className='textRoot commentInput' variant="soft" placeholder="Make a comment!" value={currentComment} onChange={updateComment}></TextField.Root>
-                        <input type="submit" className="submit pageButton" value="Post"></input>
-                    </form>
-                    <div className='comments'>
-                        {currentPost.comments.map((o, i) => {
-                            return <p key={i} className='comment'>{o}</p>
-                        })}
+                    <div className='upperSection'>
+                        <div className='mainInfo'>
+                            <h2>{currentPost.title}</h2>
+                            {currentPost.tag != "" ? 
+                                <h4 className="tag">{currentPost.tag}</h4> 
+                                :
+                                <></>
+                            }
+                            <h4>{"Posted: " + currentPost.created_at}</h4>
+                            <div className="likeButtonContainer">
+                                <button className="likeButton" onClick={onLike}></button>
+                                <h4>{currentPost.likes}</h4>
+                            </div>
+                        </div>
+                        {postImg != null ? 
+                            <img src={postImg != null ? URL.createObjectURL(postImg) : null}></img>
+                            :
+                            <></>
+                        }
+                        
                     </div>
+                    <div className='lowerSection'>
+                        <p className='description'>{currentPost.description}</p>
+                        <div className='commentContainer'>
+                            <form className='commentForm' onSubmit={updateCommentDB}>
+                                <TextField.Root className='textRoot commentInput' variant="soft" placeholder="Make a comment!" value={currentComment} onChange={updateComment}></TextField.Root>
+                                <input type="submit" className="submit pageButton" value="Post"></input>
+                            </form>
+                            <div className='comments'>
+                                {currentPost.comments.map((o, i) => {
+                                    return <p key={i} className='comment'>{o}</p>
+                                })}
+                            </div>
+                        </div>
+                    </div>  
                 </div>
-            </div>  
-        </div>
+            }
+        </>
     )
 }
 

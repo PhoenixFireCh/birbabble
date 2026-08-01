@@ -74,6 +74,23 @@ a {
   scale: 1.1;
 }
 
+.backButton {
+  background-color: #D3D1D1;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  color: #323232;
+  padding: 10px;
+  border-radius: 20px;
+  margin-left: 10px;
+  margin-right: auto;
+  transition: 0.3s ease;
+}
+
+.backButton:hover {
+  color: #FFFFFF;
+}
+
 .pageButton {
   background-color: #4E9151;
   color: #FFFFFF;

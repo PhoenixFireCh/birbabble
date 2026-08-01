@@ -1,4 +1,4 @@
-.BigPost {
+.BigPost, .bigPostSkele {
     padding: 15px;
     width: 90%;
     height: fit-content;
@@ -6,6 +6,10 @@
     flex-direction: column;
     background-color: #FFFFFF;
     border-radius: 20px;
+}
+
+.bigPostSkele {
+    height: 150px;
 }
 
 .BigPost .upperSection {
@@ -28,6 +32,6 @@
 
 .BigPost:hover {
   box-shadow: none;
-  scale: 1.05;
+  scale: 1.025;
 }
 

@@ -102,8 +102,7 @@
     border-radius: 20px 0px 0px 0px;
     background-color: #4E9151;
     padding: 20px 0px 20px 20px;
-    justify-content: top;
-    align-items: center;
+    justify-content: start;
 }
 
 .Home .footer p {

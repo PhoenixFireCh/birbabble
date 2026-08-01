@@ -6,7 +6,12 @@
     background-color: white;
     border-radius: 30px;
     padding: 40px;
-    margin-top: 20px;
+}
+
+.viewSkeleton {
+    width: 50%;
+    height: 600px;
+    border-radius: 30px;
 }
 
 .View .utilityButtons {
@@ -19,19 +24,10 @@
 }
 
 .View .edit, .View .erase {
-    background-size: 70%;
-    background-repeat: no-repeat;
-    background-position: center;
-    padding: 25px;
+    padding: 5px;
+    display: flex;
 }
 
-.View .edit {
-    background-image: url("/edit.svg");
-}
-
-.View .erase {
-    background-image: url("/erase.svg");
-}
 
 .View .upperSection{
     display: flex;

@@ -1,15 +1,20 @@
 import Form from "../Components/Form"
+import { Link } from "react-router";
+import { CaretLeftIcon } from "@radix-ui/react-icons";
 import { data, useParams } from 'react-router';
 import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../client.js'
+import { Skeleton } from "@radix-ui/themes";
 
 const Edit = () => {
+    const [loading, setLoading] = useState(true);
     const { id } = useParams();
     const [currentPost, setCurrentPost] = useState(null);
     const [postImg, setPostImg] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             const {data: dataA, error : errorA} = await supabase 
                 .from('content')
                 .select('*')
@@ -25,12 +30,23 @@ const Edit = () => {
                 if (errorB) console.error(errorB);
                 setPostImg(file);
             }
+            setLoading(false);
         }
         fetchData();
     }, [])
 
     return(
-        <Form o={currentPost} img={postImg}/>
+        <>  
+            <Link className='backButton' to="/">
+                <CaretLeftIcon height="30" width="30"></CaretLeftIcon>
+                Back
+            </Link>
+            {loading ? 
+                <Skeleton className="formSkeleton"></Skeleton>
+                :
+                <Form o={currentPost} img={postImg}/>
+            }
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-.SmallPost {
+.SmallPost, .smallPostSkele {
     padding: 15px;
     width: 100%;
     height: fit-content;
@@ -12,6 +12,10 @@
     rgba(255, 255, 255, 0)
     );
     border-radius: 20px;
+}
+
+.smallPostSkele {
+    height: 80px;
 }
 
 .SmallPost .upperSection, .SmallPost .lowerSection  {

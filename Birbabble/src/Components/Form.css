@@ -6,14 +6,19 @@
     background-color: #FFFFFF;
     border-radius: 30px;
     padding: 20px;
-    margin-top: 20px;
+}
+
+.formSkeleton {
+    width: 50%;
+    border-radius: 30px;
+    height: 600px;
 }
 
 .Form .upperSection {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 50%;
+    height: 400px;
     width: 100%;
 }
 
