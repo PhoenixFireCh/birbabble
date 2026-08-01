@@ -58,6 +58,11 @@ const Form = ({o, img}) => {
     const submitToDB = async (e) => {
         e.preventDefault()
         //Post
+        if (response.title == "") {
+            alert("Please put a title");
+            return
+        }
+
         if (o == null) {
             const { data: dataA , error : errorA } =  await supabase
                 .from('content')
